@@ -5,6 +5,7 @@ import {
   Links,
   LiveReload,
   Meta,
+  MetaFunction,
   Outlet,
   Scripts,
   ScrollRestoration,
@@ -16,6 +17,13 @@ import stylesheet from "~/tailwind.css";
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
+];
+
+export const meta: MetaFunction = () => [
+  {
+    title: "Daryl Findlay",
+  },
+  { name: "description", content: "Welcome to remix!" },
 ];
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
