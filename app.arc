@@ -3,11 +3,11 @@ daryl-findlay-com-09dc
 
 @aws
 runtime nodejs18.x
+region eu-west-1
+timeout 30
 # concurrency 1
 # memory 1152
 # profile default
-# region us-west-1
-# timeout 30
 
 @http
 /*
