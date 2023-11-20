@@ -26,7 +26,11 @@ export const meta: MetaFunction = () => [
   {
     title: "Daryl Findlay",
   },
-  { name: "description", content: "Welcome to remix!" },
+  {
+    name: "description",
+    content:
+      "Discover my portfolio as a software engineer. Explore a compilation of my projects and experience in web development and software engineering. Dive into the world of code and innovation that reflects my professional journey.",
+  },
 ];
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
