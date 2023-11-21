@@ -13,6 +13,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import { createHead } from "remix-island";
 
 import { getUser } from "~/session.server";
 import stylesheet from "~/tailwind.css";
@@ -33,26 +34,28 @@ export const meta: MetaFunction = () => [
   },
 ];
 
+export const Head = createHead(() => (
+  <>
+    <Meta />
+    <Links />
+    <meta charSet="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="icon" href="/_static/favicon.ico" />
+  </>
+));
+
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   return json({ user: await getUser(request) });
 };
 
 export default function App() {
   return (
-    <html lang="en" className="h-full">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <link rel="icon" href="/_static/favicon.ico" />
-        <Meta />
-        <Links />
-      </head>
-      <body className="h-full">
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
-      </body>
-    </html>
+    <>
+      <Head />
+      <Outlet />
+      <ScrollRestoration />
+      <Scripts />
+      <LiveReload />
+    </>
   );
 }
