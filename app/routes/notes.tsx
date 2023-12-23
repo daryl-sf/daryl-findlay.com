@@ -1,6 +1,13 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Form, Link, NavLink, Outlet, useLoaderData } from "@remix-run/react";
+import {
+  Form,
+  Link,
+  NavLink,
+  Outlet,
+  useFetchers,
+  useLoaderData,
+} from "@remix-run/react";
 
 import { getNoteListItems } from "~/models/note.server";
 import { requireUserId } from "~/session.server";
@@ -15,7 +22,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export default function NotesPage() {
   const data = useLoaderData<typeof loader>();
   const user = useUser();
-
+  const fetchers = useFetchers();
   return (
     <div className="flex h-full min-h-screen flex-col">
       <header className="flex items-center justify-between bg-slate-800 p-4 text-white">
@@ -34,7 +41,7 @@ export default function NotesPage() {
       </header>
 
       <main className="flex flex-col md:flex-row h-full bg-white">
-        <div className="md:h-screen border-r bg-gray-50">
+        <div className="md:h-screen border-r bg-gray-50 md:max-w-[25%] ">
           <Link to="new" className="block p-4 text-xl text-blue-500">
             + New Note
           </Link>
@@ -56,7 +63,19 @@ export default function NotesPage() {
                       }
                       to={note.id}
                     >
-                      📝 {note.title}
+                      📝{" "}
+                      {String(
+                        fetchers
+                          .find(
+                            (fetcher) =>
+                              ["submitting", "loading"].includes(
+                                fetcher.state,
+                              ) &&
+                              fetcher.formAction === `/notes/${note.id}` &&
+                              fetcher.formData?.has("intent"),
+                          )
+                          ?.formData?.get("title") ?? note.title,
+                      )}
                     </NavLink>
                   </li>
                 ))}

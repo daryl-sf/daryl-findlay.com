@@ -79,3 +79,36 @@ export async function deleteNote({ id, userId }: Pick<Note, "id" | "userId">) {
   const db = await arc.tables();
   return db.note.delete({ pk: userId, sk: idToSk(id) });
 }
+
+export async function updateNote({ id, userId, title, body }: Pick<Note, "id" | "userId"> & Partial<Pick<Note, "title" | "body">>) {
+  const db = await arc.tables();
+
+  let updateExp = 'set';
+  const expAttributeValues: Record<string, string> = {};
+  if (title !== undefined) {
+    updateExp += ' title = :t,';
+    expAttributeValues[':t'] = title;
+  }
+  if (body !== undefined) {
+    updateExp += ' body = :b,';
+    expAttributeValues[':b'] = body;
+  }
+  updateExp = updateExp.replace(/,$/, '');
+
+  const updateParams = {
+    TableName: "note",
+    Key: { pk: userId, sk: idToSk(id) },
+    UpdateExpression: updateExp,
+    ExpressionAttributeValues: expAttributeValues,
+    ReturnValues: 'ALL_NEW'
+  };
+
+  const result = await db.note.update(updateParams);
+  
+  return {
+    id: skToId(result.Attributes!.sk),
+    userId: result.Attributes!.pk,
+    title: result.Attributes?.title,
+    body: result.Attributes?.body,
+  };
+  }
