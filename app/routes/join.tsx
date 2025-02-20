@@ -12,6 +12,11 @@ import { createUserSession, getUserId } from "~/session.server";
 import { safeRedirect, validateEmail } from "~/utils";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const url = new URL(request.url);
+  const token = url.searchParams.get("token");
+  if (token !== process.env.SIGN_UP_TOKEN) {
+    return redirect("/");
+  }
   const userId = await getUserId(request);
   if (userId) return redirect("/");
   return json({});

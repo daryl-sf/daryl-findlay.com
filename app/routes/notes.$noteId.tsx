@@ -47,7 +47,7 @@ export default function NoteDetailsPage() {
   const data = useLoaderData<typeof loader>();
 
   return (
-    <div>
+    <div className="p-6">
       <EditableText
         value={data.note.title}
         fieldName="title"

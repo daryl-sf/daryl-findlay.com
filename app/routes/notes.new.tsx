@@ -46,15 +46,7 @@ export default function NewNotePage() {
   }, [actionData]);
 
   return (
-    <Form
-      method="post"
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: 8,
-        width: "100%",
-      }}
-    >
+    <Form method="post" className="flex flex-col gap-8 w-full p-6">
       <div>
         <label className="flex w-full flex-col gap-1">
           <span>Title: </span>
@@ -66,6 +58,7 @@ export default function NewNotePage() {
             aria-errormessage={
               actionData?.errors?.title ? "title-error" : undefined
             }
+            defaultValue={new Date().toLocaleDateString()}
           />
         </label>
         {actionData?.errors?.title ? (

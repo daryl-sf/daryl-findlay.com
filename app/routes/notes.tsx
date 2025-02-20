@@ -29,7 +29,7 @@ export default function NotesPage() {
         <h1 className="text-3xl font-bold">
           <Link to=".">Notes</Link>
         </h1>
-        <p>{user.email}</p>
+        <p className="hidden md:block">{user.email}</p>
         <Form action="/logout" method="post">
           <button
             type="submit"
@@ -40,10 +40,10 @@ export default function NotesPage() {
         </Form>
       </header>
 
-      <main className="flex flex-col md:flex-row h-full bg-white">
+      <main className="flex flex-col md:flex-row bg-white h-screen">
         <div className="md:h-screen border-r bg-gray-50 md:max-w-[25%] ">
           <Link to="new" className="block p-4 text-xl text-blue-500">
-            + New Note
+            + New Entry
           </Link>
 
           <hr />
@@ -84,18 +84,20 @@ export default function NotesPage() {
           </div>
         </div>
 
-        <div className="flex-1 p-6">
+        <div className="flex-1">
           <Outlet />
         </div>
 
-        <div className="md:hidden block">
+        <div className="md:hidden block h-full">
           {data.noteListItems.length > 0 ? (
             <ol>
               {data.noteListItems.map((note) => (
                 <li key={note.id}>
                   <NavLink
                     className={({ isActive }) =>
-                      `block border-b p-4 text-xl ${isActive ? "bg-white" : ""}`
+                      `block border-b p-4 text-xl ${
+                        isActive ? "bg-slate-200" : "bg-white"
+                      }`
                     }
                     to={note.id}
                   >
