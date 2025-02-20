@@ -114,6 +114,7 @@ jobs:
   deploy:
     needs: [lint, typecheck, vitest]
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev'
 
     steps:
       - name: ⬇️ Checkout repo
